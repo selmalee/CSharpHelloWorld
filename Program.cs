@@ -17,6 +17,14 @@ builder.Services.AddRazorComponents()
 
 var app = builder.Build();
 
+// The using statement ensures that the database context is disposed after the seeding operation completes.
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+
+    SeedData.Initialize(services);
+}
+
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
